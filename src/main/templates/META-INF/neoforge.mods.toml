@@ -8,7 +8,7 @@ version="${mod_version}"
 displayName="${mod_name}"
 authors="Jam Femino"
 description='''
-Turns the Elytra into a Waystones progression component and rebuilds Waystones recipes around Create machinery.
+Turns the Elytra into a Waystones progression component and rebuilds Waystones recipes around Create machinery, or the vanilla crafting table when Create is not installed.
 '''
 
 [[mixins]]
@@ -30,7 +30,7 @@ side="BOTH"
 
 [[dependencies.${mod_id}]]
 modId="create"
-type="required"
+type="optional"
 versionRange="[${create_version},)"
 ordering="AFTER"
 side="BOTH"

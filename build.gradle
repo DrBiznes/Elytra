@@ -63,7 +63,11 @@ configurations {
 
 dependencies {
     // Exact public releases for Minecraft 1.21.1.
-    localRuntime 'curse.maven:create-328085:7963363'
+    // Create is an optional dependency. Pass -PnoCreate (e.g. `gradlew runClient -PnoCreate`)
+    // to launch without it and exercise the vanilla crafting-table recipe path.
+    if (!project.hasProperty('noCreate')) {
+        localRuntime 'curse.maven:create-328085:7963363'
+    }
     localRuntime 'curse.maven:waystones-245755:8873000'
     localRuntime 'curse.maven:balm-531761:8645517'
 }
@@ -104,15 +108,94 @@ tasks.register('validateResources') {
         def jsonFiles = fileTree('src/main/resources') { include '**/*.json' }.files
         jsonFiles.each { jsonSlurper.parse(it) }
 
-        def disabled = fileTree('src/main/resources/data/waystones/recipe') { include '*.json' }.files
+        // Every original Waystones recipe is disabled with a neoforge:false condition ...
+        def disabledDir = file('src/main/resources/data/waystones/recipe')
+        def disabled = fileTree(disabledDir) { include '*.json' }.files
         if (disabled.size() < 50) {
             throw new GradleException("Expected at least 50 disabled original Waystones recipes, found ${disabled.size()}")
         }
-        def replacements = fileTree('src/main/resources/data/waystone_wings/recipe') { include '**/*.json' }.files
-        if (replacements.size() < 50) {
-            throw new GradleException("Expected at least 50 replacement/legacy recipes, found ${replacements.size()}")
+        disabled.each { f ->
+            def conditions = jsonSlurper.parse(f)['neoforge:conditions']
+            if (conditions?.size() != 1 || conditions[0].type != 'neoforge:false') {
+                throw new GradleException("${f.name} must disable the original recipe with a single neoforge:false condition")
+            }
         }
-        logger.lifecycle("Validated ${jsonFiles.size()} JSON resources, ${disabled.size()} overrides, and ${replacements.size()} replacement/legacy recipes.")
+
+        // ... and recreated under original/, with a create/ and a vanilla/ replacement for every family.
+        def recipeRoot = file('src/main/resources/data/waystone_wings/recipe')
+        def styleFiles = { String style ->
+            def dir = new File(recipeRoot, style)
+            fileTree(dir) { include '**/*.json' }.files.collectEntries {
+                [(dir.toPath().relativize(it.toPath()).toString().replace('\\', '/')): it]
+            }
+        }
+        def sets = [create: styleFiles('create'), vanilla: styleFiles('vanilla'), original: styleFiles('original')]
+
+        // Ground truth for which waystones: items actually exist: whatever the recreated
+        // original recipes produce (they mirror the real Waystones mod's recipe list exactly).
+        def waystonesItemIds = sets.original.values().collect { f ->
+            jsonSlurper.parse(f).result.id
+        } as Set
+
+        def disabledNames = disabled.collect { it.name } as Set
+        def originalNames = sets.original.keySet()
+        if (originalNames != disabledNames) {
+            throw new GradleException("original/ must mirror the disabled Waystones recipes. Missing: ${disabledNames - originalNames}. Extra: ${originalNames - disabledNames}")
+        }
+        // Toggleable families have both a Create and a vanilla recipe. Non-toggleable families
+        // (a single deploying/compacting step wasn't worth a machine) only ever have a vanilla one.
+        def toggleableFamilies = ['calibrated_warp_core', 'waystone', 'waystone_variants', 'warp_plate',
+                        'warp_stone', 'blank_scroll', 'warp_dust', 'dormant_shard', 'deepslate_shard'] as Set
+        def vanillaOnlyFamilies = ['portstones', 'sharestones', 'warp_scroll', 'return_scroll', 'portal_scroll',
+                        'twinbound_feather', 'epitaph'] as Set
+        def families = toggleableFamilies + vanillaOnlyFamilies
+
+        // Every create/ file must have a vanilla/ file at the same path, and vice versa: every
+        // vanilla/ file for a toggleable family must have a matching create/ file. vanilla/ files
+        // for non-toggleable families have no create/ counterpart at all.
+        def vanillaToggleablePaths = sets.vanilla.findAll { path, f ->
+            toggleableFamilies.contains(jsonSlurper.parse(f)['neoforge:conditions'][0].recipe)
+        }.keySet()
+        if (sets.create.keySet() != vanillaToggleablePaths) {
+            throw new GradleException("create/ and the toggleable-family files under vanilla/ must contain the same recipe paths. " +
+                    "Missing vanilla: ${sets.create.keySet() - vanillaToggleablePaths}. Missing create: ${vanillaToggleablePaths - sets.create.keySet()}")
+        }
+
+        sets.each { style, files ->
+            files.each { path, f ->
+                def recipe = jsonSlurper.parse(f)
+                def conditions = recipe['neoforge:conditions']
+                if (conditions?.size() != 1 || conditions[0].type != 'waystone_wings:recipe_config') {
+                    throw new GradleException("${style}/${path} must carry exactly one waystone_wings:recipe_config condition")
+                }
+                def family = conditions[0].recipe
+                if (!families.contains(family)) {
+                    throw new GradleException("${style}/${path} references unknown recipe family '${family}'")
+                }
+                if (style != 'original' && !toggleableFamilies.contains(family) && style != 'vanilla') {
+                    throw new GradleException("${style}/${path}: family '${family}' is not toggleable and must only appear under vanilla/")
+                }
+                if (conditions[0].style != style) {
+                    throw new GradleException("${style}/${path} declares style '${conditions[0].style}' but lives in ${style}/")
+                }
+                def expectedNamespace = style == 'create' ? 'create:' : 'minecraft:'
+                if (!recipe.type.startsWith(expectedNamespace)) {
+                    throw new GradleException("${style}/${path} has recipe type '${recipe.type}', expected a ${expectedNamespace} recipe")
+                }
+                // Every produced waystones: item must be one the original mod actually registers.
+                // (Waystones ships 16 Portstone colours but only 15 Sharestones -- no white_sharestone --
+                // so this catches copy/paste colour-list mistakes rather than assuming symmetry.)
+                def resultIds = (recipe.results ?: (recipe.result ? [recipe.result] : []))*.id
+                resultIds.findAll { it?.startsWith('waystones:') }.each { id ->
+                    if (!waystonesItemIds.contains(id)) {
+                        throw new GradleException("${style}/${path} produces '${id}', which is not a real waystones: item " +
+                                "(known items come from the original/ recreations)")
+                    }
+                }
+            }
+        }
+        logger.lifecycle("Validated ${jsonFiles.size()} JSON resources: ${disabled.size()} disabled Waystones recipes, " +
+                "${sets.create.size()} Create recipes, ${sets.vanilla.size()} vanilla recipes, ${sets.original.size()} original recreations.")
     }
 }
 

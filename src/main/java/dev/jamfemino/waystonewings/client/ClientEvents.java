@@ -9,9 +9,11 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ModelEvent;
 
-@EventBusSubscriber(modid = WaystoneWings.MOD_ID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = WaystoneWings.MOD_ID, value = Dist.CLIENT)
 public final class ClientEvents {
-    private static final ModelResourceLocation WARP_CORE_MODEL = ModelResourceLocation.inventory(
+    // Side-loaded models must use the standalone variant; NeoForge rejects any other variant
+    // during ModelEvent.RegisterAdditional, which aborts the initial resource reload.
+    private static final ModelResourceLocation WARP_CORE_MODEL = ModelResourceLocation.standalone(
             WaystoneWings.id("item/elytra_warp_core"));
     private static final ModelResourceLocation VANILLA_ELYTRA_MODEL = ModelResourceLocation.inventory(
             ResourceLocation.withDefaultNamespace("elytra"));

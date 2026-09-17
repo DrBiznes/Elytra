@@ -1,8 +1,13 @@
 package dev.jamfemino.waystonewings.config;
 
+import dev.jamfemino.waystonewings.recipe.RecipeFamily;
 import net.minecraft.network.chat.Component;
 import net.neoforged.neoforge.common.ModConfigSpec;
 import net.neoforged.neoforge.common.TranslatableEnum;
+
+import java.util.Collections;
+import java.util.EnumMap;
+import java.util.Map;
 
 public final class CommonConfig {
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
@@ -17,6 +22,8 @@ public final class CommonConfig {
     public static final ModConfigSpec.BooleanValue REPLACE_WAYSTONES_RECIPES;
     public static final ModConfigSpec.BooleanValue REQUIRE_ELYTRA_WARP_CORE;
     public static final ModConfigSpec.BooleanValue REPLACE_WAYSTONES_ITEM_RECIPES;
+    public static final ModConfigSpec.EnumValue<DefaultRecipeStyle> DEFAULT_RECIPE_STYLE;
+    private static final Map<RecipeFamily, ModConfigSpec.EnumValue<FamilyRecipeStyle>> RECIPE_STYLE_OVERRIDES;
     public static final ModConfigSpec.BooleanValue ALLOW_ORIGINAL_RECIPES;
 
     public static final ModConfigSpec SPEC;
@@ -59,10 +66,10 @@ public final class CommonConfig {
                         value -> value instanceof String message && !message.isBlank() && message.length() <= 128);
         BUILDER.pop();
 
-        BUILDER.comment("Create-based progression for permanent Waystones infrastructure.")
+        BUILDER.comment("Progression overhaul for permanent Waystones infrastructure.")
                 .translation("config.waystone_wings.section.infrastructureRecipes")
                 .push("infrastructureRecipes");
-        REPLACE_WAYSTONES_RECIPES = BUILDER.comment("Enable the Create-based recipe overhaul.")
+        REPLACE_WAYSTONES_RECIPES = BUILDER.comment("Enable the Waystone Wings recipe overhaul (Create machinery or vanilla crafting, see recipeStyle).")
                 .translation("config.waystone_wings.replaceWaystonesRecipes")
                 .worldRestart()
                 .define("replaceWaystonesRecipes", true);
@@ -81,6 +88,35 @@ public final class CommonConfig {
                 .define("replaceWaystonesItemRecipes", true);
         BUILDER.pop();
 
+        BUILDER.comment("Whether the overhauled recipes use Create machinery or the vanilla crafting table.",
+                        "Create is an optional dependency: without it every recipe uses the vanilla crafting table.")
+                .translation("config.waystone_wings.section.recipeStyle")
+                .push("recipeStyle");
+        DEFAULT_RECIPE_STYLE = BUILDER.comment(
+                        "AUTO: Create recipes when Create is installed, vanilla crafting-table recipes otherwise.",
+                        "CREATE: Create recipes (falls back to vanilla for any recipe when Create is missing).",
+                        "VANILLA: vanilla crafting-table recipes even when Create is installed.")
+                .translation("config.waystone_wings.defaultRecipeStyle")
+                .worldRestart()
+                .defineEnum("defaultRecipeStyle", DefaultRecipeStyle.AUTO);
+
+        BUILDER.comment("Per-recipe overrides. DEFAULT follows defaultRecipeStyle; CREATE and VANILLA force that style for the recipe.")
+                .translation("config.waystone_wings.section.recipeStyleOverrides")
+                .push("overrides");
+        Map<RecipeFamily, ModConfigSpec.EnumValue<FamilyRecipeStyle>> overrides = new EnumMap<>(RecipeFamily.class);
+        for (RecipeFamily family : RecipeFamily.values()) {
+            if (!family.toggleable()) {
+                // No Create recipe exists for this family, so there is nothing to override.
+                continue;
+            }
+            overrides.put(family, BUILDER.comment(family.description())
+                    .translation("config.waystone_wings.recipeStyle." + family.configKey())
+                    .worldRestart()
+                    .defineEnum(family.configKey(), FamilyRecipeStyle.DEFAULT));
+        }
+        RECIPE_STYLE_OVERRIDES = Collections.unmodifiableMap(overrides);
+        BUILDER.pop(2);
+
         BUILDER.comment("Fallback controls for compatibility with modpacks and external data packs.")
                 .translation("config.waystone_wings.section.compatibility")
                 .push("compatibility");
@@ -96,6 +132,11 @@ public final class CommonConfig {
     private CommonConfig() {
     }
 
+    /** The per-family style override for {@code family}. */
+    public static ModConfigSpec.EnumValue<FamilyRecipeStyle> recipeStyleOverride(RecipeFamily family) {
+        return RECIPE_STYLE_OVERRIDES.get(family);
+    }
+
     public enum AlreadyEquippedBehavior implements TranslatableEnum {
         UNEQUIP("config.waystone_wings.handleAlreadyEquipped.unequip"),
         ALLOW("config.waystone_wings.handleAlreadyEquipped.allow");
@@ -103,6 +144,42 @@ public final class CommonConfig {
         private final String translationKey;
 
         AlreadyEquippedBehavior(String translationKey) {
+            this.translationKey = translationKey;
+        }
+
+        @Override
+        public Component getTranslatedName() {
+            return Component.translatable(translationKey);
+        }
+    }
+
+    /** Global recipe style. */
+    public enum DefaultRecipeStyle implements TranslatableEnum {
+        AUTO("config.waystone_wings.recipeStyle.auto"),
+        CREATE("config.waystone_wings.recipeStyle.create"),
+        VANILLA("config.waystone_wings.recipeStyle.vanilla");
+
+        private final String translationKey;
+
+        DefaultRecipeStyle(String translationKey) {
+            this.translationKey = translationKey;
+        }
+
+        @Override
+        public Component getTranslatedName() {
+            return Component.translatable(translationKey);
+        }
+    }
+
+    /** Per-family recipe style; DEFAULT defers to {@link #DEFAULT_RECIPE_STYLE}. */
+    public enum FamilyRecipeStyle implements TranslatableEnum {
+        DEFAULT("config.waystone_wings.recipeStyle.default"),
+        CREATE("config.waystone_wings.recipeStyle.create"),
+        VANILLA("config.waystone_wings.recipeStyle.vanilla");
+
+        private final String translationKey;
+
+        FamilyRecipeStyle(String translationKey) {
             this.translationKey = translationKey;
         }
 

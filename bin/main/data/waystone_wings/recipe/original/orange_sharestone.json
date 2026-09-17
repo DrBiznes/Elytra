@@ -1,0 +1,33 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "waystone_wings:recipe_config",
+      "recipe": "sharestones",
+      "style": "original"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "tag": "c:dyes/orange"
+    },
+    "W": {
+      "item": "waystones:warp_stone"
+    },
+    "S": {
+      "item": "minecraft:stone_bricks"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "pattern": [
+    "SSS",
+    "DWD",
+    "OOO"
+  ],
+  "result": {
+    "id": "waystones:orange_sharestone"
+  }
+}

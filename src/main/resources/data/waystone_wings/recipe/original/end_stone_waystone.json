@@ -1,0 +1,30 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "waystone_wings:recipe_config",
+      "recipe": "waystone_variants",
+      "style": "original"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "W": {
+      "item": "waystones:warp_stone"
+    },
+    "S": {
+      "item": "minecraft:end_stone_bricks"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "pattern": [
+    " S ",
+    "SWS",
+    "OOO"
+  ],
+  "result": {
+    "id": "waystones:end_stone_waystone"
+  }
+}

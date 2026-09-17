@@ -1,0 +1,85 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "waystone_wings:recipe_config",
+      "recipe": "blank_scroll",
+      "style": "create"
+    }
+  ],
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "minecraft:paper"
+  },
+  "transitional_item": {
+    "id": "waystone_wings:incomplete_scroll"
+  },
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "waystone_wings:incomplete_scroll"
+        },
+        {
+          "item": "minecraft:ink_sac"
+        }
+      ],
+      "results": [
+        {
+          "id": "waystone_wings:incomplete_scroll"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "waystone_wings:incomplete_scroll"
+        },
+        {
+          "item": "minecraft:feather"
+        }
+      ],
+      "results": [
+        {
+          "id": "waystone_wings:incomplete_scroll"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "waystone_wings:incomplete_scroll"
+        },
+        {
+          "tag": "c:nuggets/gold"
+        }
+      ],
+      "results": [
+        {
+          "id": "waystone_wings:incomplete_scroll"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "waystone_wings:incomplete_scroll"
+        }
+      ],
+      "results": [
+        {
+          "id": "waystone_wings:incomplete_scroll"
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "waystones:blank_scroll"
+    }
+  ],
+  "loops": 3
+}

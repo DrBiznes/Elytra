@@ -1,0 +1,86 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "waystone_wings:recipe_config",
+      "recipe": "calibrated_warp_core",
+      "style": "create",
+      "elytra_required": true
+    }
+  ],
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "minecraft:elytra"
+  },
+  "transitional_item": {
+    "id": "waystone_wings:incomplete_warp_core"
+  },
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "waystone_wings:incomplete_warp_core"
+        },
+        {
+          "item": "create:precision_mechanism"
+        }
+      ],
+      "results": [
+        {
+          "id": "waystone_wings:incomplete_warp_core"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "waystone_wings:incomplete_warp_core"
+        },
+        {
+          "item": "minecraft:ender_eye"
+        }
+      ],
+      "results": [
+        {
+          "id": "waystone_wings:incomplete_warp_core"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "waystone_wings:incomplete_warp_core"
+        },
+        {
+          "tag": "c:plates/brass"
+        }
+      ],
+      "results": [
+        {
+          "id": "waystone_wings:incomplete_warp_core"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "waystone_wings:incomplete_warp_core"
+        }
+      ],
+      "results": [
+        {
+          "id": "waystone_wings:incomplete_warp_core"
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "waystone_wings:calibrated_warp_core"
+    }
+  ],
+  "loops": 1
+}

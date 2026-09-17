@@ -8,7 +8,7 @@ version="0.1.0"
 displayName="Waystone Wings"
 authors="Jam Femino"
 description='''
-Turns the Elytra into a Waystones progression component and rebuilds Waystones recipes around Create machinery.
+Turns the Elytra into a Waystones progression component and rebuilds Waystones recipes around Create machinery, or the vanilla crafting table when Create is not installed.
 '''
 
 [[mixins]]
@@ -17,7 +17,7 @@ config="waystone_wings.mixins.json"
 [[dependencies.waystone_wings]]
 modId="neoforge"
 type="required"
-versionRange="[21.1.250,)"
+versionRange="[21.1.248,)"
 ordering="NONE"
 side="BOTH"
 
@@ -30,7 +30,7 @@ side="BOTH"
 
 [[dependencies.waystone_wings]]
 modId="create"
-type="required"
+type="optional"
 versionRange="[6.0.10,)"
 ordering="AFTER"
 side="BOTH"

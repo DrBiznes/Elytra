@@ -1,0 +1,37 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "waystone_wings:recipe_config",
+      "recipe": "calibrated_warp_core",
+      "style": "vanilla",
+      "elytra_required": true
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": {
+      "tag": "c:ingots/gold"
+    },
+    "E": {
+      "item": "minecraft:ender_eye"
+    },
+    "C": {
+      "tag": "c:ingots/copper"
+    },
+    "X": {
+      "item": "minecraft:elytra"
+    },
+    "R": {
+      "item": "minecraft:comparator"
+    }
+  },
+  "pattern": [
+    "GEG",
+    "CXC",
+    "GRG"
+  ],
+  "result": {
+    "id": "waystone_wings:calibrated_warp_core"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "waystone_wings:recipe_config",
+      "recipe": "waystone_variants",
+      "style": "vanilla"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "S": {
+      "item": "minecraft:end_stone_bricks"
+    },
+    "A": {
+      "item": "minecraft:amethyst_shard"
+    },
+    "W": {
+      "item": "waystone_wings:calibrated_warp_core"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "pattern": [
+    "SAS",
+    "SWS",
+    "OOO"
+  ],
+  "result": {
+    "id": "waystones:end_stone_waystone"
+  }
+}

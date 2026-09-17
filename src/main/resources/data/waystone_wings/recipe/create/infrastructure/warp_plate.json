@@ -1,0 +1,85 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "waystone_wings:recipe_config",
+      "recipe": "warp_plate",
+      "style": "create"
+    }
+  ],
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "minecraft:polished_andesite"
+  },
+  "transitional_item": {
+    "id": "waystone_wings:incomplete_warp_plate"
+  },
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "waystone_wings:incomplete_warp_plate"
+        },
+        {
+          "item": "waystone_wings:calibrated_warp_core"
+        }
+      ],
+      "results": [
+        {
+          "id": "waystone_wings:incomplete_warp_plate"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "waystone_wings:incomplete_warp_plate"
+        },
+        {
+          "item": "waystones:dormant_shard"
+        }
+      ],
+      "results": [
+        {
+          "id": "waystone_wings:incomplete_warp_plate"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "waystone_wings:incomplete_warp_plate"
+        },
+        {
+          "item": "create:sturdy_sheet"
+        }
+      ],
+      "results": [
+        {
+          "id": "waystone_wings:incomplete_warp_plate"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "waystone_wings:incomplete_warp_plate"
+        }
+      ],
+      "results": [
+        {
+          "id": "waystone_wings:incomplete_warp_plate"
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "waystones:warp_plate"
+    }
+  ],
+  "loops": 1
+}

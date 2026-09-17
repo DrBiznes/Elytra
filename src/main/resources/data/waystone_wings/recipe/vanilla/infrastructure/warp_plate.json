@@ -1,0 +1,33 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "waystone_wings:recipe_config",
+      "recipe": "warp_plate",
+      "style": "vanilla"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": {
+      "item": "minecraft:polished_andesite"
+    },
+    "F": {
+      "item": "waystones:dormant_shard"
+    },
+    "I": {
+      "tag": "c:ingots/iron"
+    },
+    "W": {
+      "item": "waystone_wings:calibrated_warp_core"
+    }
+  },
+  "pattern": [
+    "PFP",
+    "IWI",
+    "PPP"
+  ],
+  "result": {
+    "id": "waystones:warp_plate"
+  }
+}

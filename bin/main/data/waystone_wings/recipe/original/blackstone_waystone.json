@@ -1,0 +1,30 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "waystone_wings:recipe_config",
+      "recipe": "waystone_variants",
+      "style": "original"
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "W": {
+      "item": "waystones:warp_stone"
+    },
+    "S": {
+      "item": "minecraft:blackstone"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "pattern": [
+    " S ",
+    "SWS",
+    "OOO"
+  ],
+  "result": {
+    "id": "waystones:blackstone_waystone"
+  }
+}
