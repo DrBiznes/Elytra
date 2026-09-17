@@ -82,7 +82,7 @@ public final class CommonConfig {
         BUILDER.comment("Recipe coverage for scrolls, dust, shards, tools, and utility items.")
                 .translation("config.waystone_wings.section.itemRecipes")
                 .push("itemRecipes");
-        REPLACE_WAYSTONES_ITEM_RECIPES = BUILDER.comment("Also overhaul scrolls, dust, shards, the Warp Stone, Twinbound Feather, and Epitaph.")
+        REPLACE_WAYSTONES_ITEM_RECIPES = BUILDER.comment("Also overhaul scrolls, dust, shards, the Twinbound Feather, and Epitaph.")
                 .translation("config.waystone_wings.replaceWaystonesItemRecipes")
                 .worldRestart()
                 .define("replaceWaystonesItemRecipes", true);

@@ -25,8 +25,6 @@ public enum RecipeFamily implements StringRepresentable {
             "All sixteen coloured Portstones. Always crafted at a table: a single dye step isn't worth a machine."),
     SHARESTONES("sharestones", "sharestones", Group.INFRASTRUCTURE, false,
             "All sixteen coloured Sharestones. Always crafted at a table: a single reinforcing step isn't worth a machine."),
-    WARP_STONE("warp_stone", "warpStone", Group.ITEMS, true,
-            "The Warp Stone."),
     BLANK_SCROLL("blank_scroll", "blankScroll", Group.ITEMS, true,
             "Blank Scrolls."),
     WARP_SCROLL("warp_scroll", "warpScroll", Group.ITEMS, false,

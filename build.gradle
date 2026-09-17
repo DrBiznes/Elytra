@@ -145,7 +145,7 @@ tasks.register('validateResources') {
         // Toggleable families have both a Create and a vanilla recipe. Non-toggleable families
         // (a single deploying/compacting step wasn't worth a machine) only ever have a vanilla one.
         def toggleableFamilies = ['calibrated_warp_core', 'waystone', 'waystone_variants', 'warp_plate',
-                        'warp_stone', 'blank_scroll', 'warp_dust', 'dormant_shard', 'deepslate_shard'] as Set
+                        'blank_scroll', 'warp_dust', 'dormant_shard', 'deepslate_shard'] as Set
         def vanillaOnlyFamilies = ['portstones', 'sharestones', 'warp_scroll', 'return_scroll', 'portal_scroll',
                         'twinbound_feather', 'epitaph'] as Set
         def families = toggleableFamilies + vanillaOnlyFamilies

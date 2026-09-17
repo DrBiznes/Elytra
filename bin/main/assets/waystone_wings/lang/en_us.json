@@ -7,7 +7,7 @@
   "item.waystone_wings.incomplete_warp_stone": "Incomplete Warp Stone",
   "item.waystone_wings.incomplete_scroll": "Incomplete Warp Scroll",
   "tooltip.waystone_wings.elytra.flight_disabled": "Cannot be used for flight.",
-  "tooltip.waystone_wings.elytra.purpose": "Used to build Waystones technology.",
+  "tooltip.waystone_wings.elytra.purpose": "Used to craft the Calibrated Warp Core.",
 
   "waystone_wings.configuration.title": "Waystone Wings Configuration",
   "waystone_wings.configuration.section.waystone.wings.common.toml": "Gameplay & Recipes",

@@ -10,6 +10,7 @@ import net.minecraft.gametest.framework.GameTest;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeManager;
@@ -56,6 +57,31 @@ public final class WaystoneWingsGameTests {
         helper.assertTrue(
                 recipes.byKey(WaystoneWings.id("create/infrastructure/portstones/black")).isEmpty(),
                 "Portstones must never have a Create recipe");
+
+        // The Warp Stone keeps its own Waystones recipe: we neither disable nor replace it.
+        helper.assertTrue(
+                recipes.byKey(ResourceLocation.fromNamespaceAndPath("waystones", "warp_stone")).isPresent(),
+                "The original Waystones Warp Stone recipe must stay enabled");
+        helper.assertTrue(recipes.byKey(WaystoneWings.id("create/items/warp_stone")).isEmpty()
+                        && recipes.byKey(WaystoneWings.id("vanilla/items/warp_stone")).isEmpty()
+                        && recipes.byKey(WaystoneWings.id("original/warp_stone")).isEmpty(),
+                "Waystone Wings must not add any Warp Stone recipe of its own");
+
+        // Items must be in the Waystones creative tab, or they are unreachable in creative
+        // and invisible to recipe viewers such as JEI.
+        var tab = BuiltInRegistries.CREATIVE_MODE_TAB
+                .get(ResourceLocation.fromNamespaceAndPath("waystones", "waystones"));
+        helper.assertTrue(tab != null, "The Waystones creative tab must exist");
+        // Tab contents are built lazily when the creative menu is first opened, which never
+        // happens on a headless server, so build them explicitly before asserting.
+        var level = helper.getLevel();
+        tab.buildContents(new CreativeModeTab.ItemDisplayParameters(
+                level.enabledFeatures(), true, level.registryAccess()));
+        var tabItems = tab.getDisplayItems().stream().map(ItemStack::getItem).toList();
+        helper.assertTrue(tabItems.contains(ModItems.CALIBRATED_WARP_CORE.get()),
+                "The Calibrated Warp Core must appear in the Waystones creative tab");
+        helper.assertTrue(tabItems.contains(ModItems.INCOMPLETE_WAYSTONE.get()),
+                "The transitional assembly items must appear in the Waystones creative tab");
 
         helper.succeed();
     }
