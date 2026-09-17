@@ -53,6 +53,22 @@
           "item": "waystone_wings:incomplete_warp_plate"
         },
         {
+          "item": "waystones:warp_dust"
+        }
+      ],
+      "results": [
+        {
+          "id": "waystone_wings:incomplete_warp_plate"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "waystone_wings:incomplete_warp_plate"
+        },
+        {
           "item": "create:sturdy_sheet"
         }
       ],

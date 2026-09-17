@@ -35,8 +35,6 @@ public enum RecipeFamily implements StringRepresentable {
             "Portal Scrolls. Always crafted at a table from a Blank Scroll."),
     WARP_DUST("warp_dust", "warpDust", Group.ITEMS, true,
             "Warp Dust."),
-    DORMANT_SHARD("dormant_shard", "dormantShard", Group.ITEMS, true,
-            "Dormant Shards."),
     DEEPSLATE_SHARD("deepslate_shard", "deepslateShard", Group.ITEMS, true,
             "Deepslate Shards."),
     TWINBOUND_FEATHER("twinbound_feather", "twinboundFeather", Group.ITEMS, false,
