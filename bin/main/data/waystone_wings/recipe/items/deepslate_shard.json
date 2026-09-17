@@ -1,0 +1,20 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "waystone_wings:recipe_config",
+      "group": "items",
+      "original": false
+    }
+  ],
+  "type": "create:pressing",
+  "ingredients": [
+    {
+      "item": "minecraft:deepslate"
+    }
+  ],
+  "results": [
+    {
+      "id": "waystones:deepslate_shard"
+    }
+  ]
+}

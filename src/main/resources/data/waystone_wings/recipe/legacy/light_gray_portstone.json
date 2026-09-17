@@ -1,0 +1,33 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "waystone_wings:recipe_config",
+      "group": "core",
+      "original": true
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "D": {
+      "tag": "c:dyes/light_gray"
+    },
+    "W": {
+      "item": "waystones:warp_stone"
+    },
+    "S": {
+      "item": "minecraft:stone_bricks"
+    },
+    "B": {
+      "item": "minecraft:polished_andesite"
+    }
+  },
+  "pattern": [
+    "DSD",
+    "SWS",
+    "BBB"
+  ],
+  "result": {
+    "id": "waystones:light_gray_portstone"
+  }
+}

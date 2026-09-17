@@ -1,0 +1,26 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "waystone_wings:recipe_config",
+      "group": "items",
+      "original": false
+    }
+  ],
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "item": "waystones:blank_scroll"
+    },
+    {
+      "item": "minecraft:ink_sac"
+    },
+    {
+      "tag": "c:nuggets/gold"
+    }
+  ],
+  "results": [
+    {
+      "id": "waystones:return_scroll"
+    }
+  ]
+}

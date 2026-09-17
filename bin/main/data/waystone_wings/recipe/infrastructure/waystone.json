@@ -1,0 +1,85 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "waystone_wings:recipe_config",
+      "group": "core",
+      "original": false
+    }
+  ],
+  "type": "create:sequenced_assembly",
+  "ingredient": {
+    "item": "minecraft:stone_bricks"
+  },
+  "transitional_item": {
+    "id": "waystone_wings:incomplete_waystone"
+  },
+  "sequence": [
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "waystone_wings:incomplete_waystone"
+        },
+        {
+          "item": "waystone_wings:calibrated_warp_core"
+        }
+      ],
+      "results": [
+        {
+          "id": "waystone_wings:incomplete_waystone"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "waystone_wings:incomplete_waystone"
+        },
+        {
+          "item": "minecraft:obsidian"
+        }
+      ],
+      "results": [
+        {
+          "id": "waystone_wings:incomplete_waystone"
+        }
+      ]
+    },
+    {
+      "type": "create:deploying",
+      "ingredients": [
+        {
+          "item": "waystone_wings:incomplete_waystone"
+        },
+        {
+          "item": "minecraft:amethyst_shard"
+        }
+      ],
+      "results": [
+        {
+          "id": "waystone_wings:incomplete_waystone"
+        }
+      ]
+    },
+    {
+      "type": "create:pressing",
+      "ingredients": [
+        {
+          "item": "waystone_wings:incomplete_waystone"
+        }
+      ],
+      "results": [
+        {
+          "id": "waystone_wings:incomplete_waystone"
+        }
+      ]
+    }
+  ],
+  "results": [
+    {
+      "id": "waystones:waystone"
+    }
+  ],
+  "loops": 1
+}

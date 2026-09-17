@@ -1,0 +1,29 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "waystone_wings:recipe_config",
+      "group": "items",
+      "original": false
+    }
+  ],
+  "type": "create:compacting",
+  "ingredients": [
+    {
+      "item": "minecraft:deepslate"
+    },
+    {
+      "item": "minecraft:amethyst_shard"
+    },
+    {
+      "tag": "c:nuggets/gold"
+    },
+    {
+      "tag": "c:nuggets/gold"
+    }
+  ],
+  "results": [
+    {
+      "id": "waystones:epitaph"
+    }
+  ]
+}

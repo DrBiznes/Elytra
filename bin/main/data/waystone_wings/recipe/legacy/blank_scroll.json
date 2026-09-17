@@ -1,0 +1,30 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "waystone_wings:recipe_config",
+      "group": "items",
+      "original": true
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "F": {
+      "item": "minecraft:feather"
+    },
+    "G": {
+      "tag": "c:nuggets/gold"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    }
+  },
+  "pattern": [
+    "GFG",
+    "PPP"
+  ],
+  "result": {
+    "id": "waystones:blank_scroll",
+    "count": 3
+  }
+}

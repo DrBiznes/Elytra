@@ -1,0 +1,30 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "waystone_wings:recipe_config",
+      "group": "items",
+      "original": true
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "D": {
+      "item": "minecraft:deepslate"
+    },
+    "G": {
+      "tag": "c:nuggets/gold"
+    },
+    "A": {
+      "item": "minecraft:amethyst_shard"
+    }
+  },
+  "pattern": [
+    "GGG",
+    "ADA",
+    "GGG"
+  ],
+  "result": {
+    "id": "waystones:epitaph"
+  }
+}

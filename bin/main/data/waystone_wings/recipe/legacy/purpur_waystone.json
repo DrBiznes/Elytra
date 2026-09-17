@@ -1,0 +1,30 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "waystone_wings:recipe_config",
+      "group": "core",
+      "original": true
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "W": {
+      "item": "waystones:warp_stone"
+    },
+    "S": {
+      "item": "minecraft:purpur_block"
+    },
+    "O": {
+      "item": "minecraft:obsidian"
+    }
+  },
+  "pattern": [
+    " S ",
+    "SWS",
+    "OOO"
+  ],
+  "result": {
+    "id": "waystones:purpur_waystone"
+  }
+}

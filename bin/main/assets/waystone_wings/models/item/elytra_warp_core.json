@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "waystone_wings:item/elytra_warp_core"
+  }
+}
