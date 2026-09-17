@@ -194,8 +194,42 @@ tasks.register('validateResources') {
                 }
             }
         }
+        // Every registered item needs its own model, and every model's texture must exist on disk.
+        // The transitional sequenced-assembly items are only distinguishable on a Create depot if
+        // each one resolves to a real, distinct texture file.
+        def assets = file('src/main/resources/assets/waystone_wings')
+        def modelDir = new File(assets, 'models/item')
+        def textureDir = new File(assets, 'textures/item')
+        def itemsSource = file('src/main/java/dev/jamfemino/waystonewings/registry/ModItems.java').text
+        def registeredItems = (itemsSource =~ /simple\("([a-z0-9_]+)"\)/).collect { it[1] }
+        if (registeredItems.isEmpty()) {
+            throw new GradleException("Could not parse any registered items out of ModItems.java")
+        }
+        def usedTextures = [:].withDefault { [] }
+        registeredItems.each { itemName ->
+            def model = new File(modelDir, "${itemName}.json")
+            if (!model.exists()) {
+                throw new GradleException("Registered item '${itemName}' has no model at models/item/${itemName}.json")
+            }
+            def layer0 = jsonSlurper.parse(model).textures?.layer0
+            if (!layer0) {
+                throw new GradleException("models/item/${itemName}.json resolves to no layer0 texture")
+            }
+            def texturePath = layer0.replace('waystone_wings:item/', '')
+            if (!new File(textureDir, "${texturePath}.png").exists()) {
+                throw new GradleException("models/item/${itemName}.json references missing texture textures/item/${texturePath}.png")
+            }
+            usedTextures[texturePath] << itemName
+        }
+        def shared = usedTextures.findAll { tex, items -> items.size() > 1 }
+        if (shared) {
+            throw new GradleException("Each item needs its own texture so assembly stages are tellable apart. Shared: " +
+                    shared.collect { tex, items -> "${tex}.png used by ${items}" }.join('; '))
+        }
+
         logger.lifecycle("Validated ${jsonFiles.size()} JSON resources: ${disabled.size()} disabled Waystones recipes, " +
-                "${sets.create.size()} Create recipes, ${sets.vanilla.size()} vanilla recipes, ${sets.original.size()} original recreations.")
+                "${sets.create.size()} Create recipes, ${sets.vanilla.size()} vanilla recipes, ${sets.original.size()} original recreations, " +
+                "${registeredItems.size()} items with distinct textures.")
     }
 }
 
