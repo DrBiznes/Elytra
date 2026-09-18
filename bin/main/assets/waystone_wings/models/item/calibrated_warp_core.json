@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "waystone_wings:item/calibrated_warp_core"
-  }
-}
