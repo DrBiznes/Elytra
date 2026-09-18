@@ -35,6 +35,8 @@ public enum RecipeFamily implements StringRepresentable {
             "Portal Scrolls. Always crafted at a table from a Blank Scroll."),
     WARP_DUST("warp_dust", "warpDust", Group.ITEMS, true,
             "Warp Dust."),
+    DORMANT_SHARD("dormant_shard", "dormantShard", Group.ITEMS, false,
+            "Dormant Shards. Always crafted at a table: no custom overhaul, matches the original Waystones recipe."),
     DEEPSLATE_SHARD("deepslate_shard", "deepslateShard", Group.ITEMS, true,
             "Deepslate Shards."),
     TWINBOUND_FEATHER("twinbound_feather", "twinboundFeather", Group.ITEMS, false,
